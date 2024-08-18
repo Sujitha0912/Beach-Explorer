@@ -19,5 +19,5 @@ A mobile application that provides real-time weather updates, crowd levels, floo
 ### Steps
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/Sujitha0912/BeachExplorer.git
+   git clone https://github.com/Sujitha0912/Beach-Explorer.git
 
