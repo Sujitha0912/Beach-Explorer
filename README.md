@@ -8,6 +8,7 @@ A mobile application that provides real-time weather updates, crowd levels, floo
 - Water level status
 - Date and time display
 - Integrated map location (Google Maps)
+- images of beach
 
 ## Installation
 
