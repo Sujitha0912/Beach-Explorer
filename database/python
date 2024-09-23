@@ -1,0 +1,41 @@
+import sqlite3
+import requests
+from datetime import datetime
+
+# Connect to the database
+conn = sqlite3.connect('beaches.db')
+cursor = conn.cursor()
+
+# Define API keys and URLs
+weather_api_url = "http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q="
+# You might have different APIs for crowd and water levels
+
+# Function to update weather data
+def update_weather(beach_id, latitude, longitude):
+    response = requests.get(f"{weather_api_url}{latitude},{longitude}")
+    data = response.json()
+    
+    temperature = data['current']['temp_c']
+    weather = data['current']['condition']['text']
+    humidity = data['current']['humidity']
+    wind_speed = data['current']['wind_kph']
+
+    date = datetime.now().date()
+    cursor.execute("""
+        INSERT INTO weather_updates (beach_id, date, temperature, weather, humidity, wind_speed)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (beach_id, date, temperature, weather, humidity, wind_speed))
+
+# Repeat similar functions for crowd levels and water levels
+
+# Update data for all beaches
+cursor.execute("SELECT id, latitude, longitude FROM beaches")
+beaches = cursor.fetchall()
+
+for beach in beaches:
+    update_weather(beach[0], beach[1], beach[2])
+    # Call functions to update crowd levels and water levels as well
+
+# Commit changes and close the connection
+conn.commit()
+conn.close()

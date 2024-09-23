@@ -1,0 +1,6 @@
+SELECT b.name, w.temperature, w.weather, c.crowd_level, wl.water_level 
+FROM beaches b
+JOIN weather_updates w ON b.id = w.beach_id
+JOIN crowd_updates c ON b.id = c.beach_id
+JOIN water_levels wl ON b.id = wl.beach_id
+WHERE w.date = (SELECT MAX(date) FROM weather_updates WHERE beach_id = b.id);
